@@ -34,18 +34,11 @@ const getShowsViaAPI = async (showId: number) => {
 
 interface ReservationProps {
   showId: number;
-  submitPurchase: ({
-    reservationId,
-    reservedSeatCount,
-  }: {
-    reservationId: number;
-    reservedSeatCount: number;
-  }) => void;
+  submitPurchase: ({ reservationId, reservedSeatCount }: { reservationId: number; reservedSeatCount: number }) => void;
 }
 
 export const Reservation = ({ showId, submitPurchase }: ReservationProps) => {
-  const [reservedSeatCount, setReservedSeatCount] =
-    React.useState(DEFAULT_TICKET_COUNT);
+  const [reservedSeatCount, setReservedSeatCount] = React.useState(DEFAULT_TICKET_COUNT);
   const reservationId = generateRandomId();
   const onSubmit = () => submitPurchase({ reservationId, reservedSeatCount });
 
@@ -53,16 +46,12 @@ export const Reservation = ({ showId, submitPurchase }: ReservationProps) => {
     data: show,
     error,
     isValidating,
-  } = useSWR<Show>(
-    showId || showId === 0 ? `/api/show/${showId}` : null,
-    () => getShowsViaAPI(showId),
-    {
-      revalidateOnMount: true,
-      revalidateOnReconnect: true,
-      revalidateOnFocus: true,
-      refreshInterval: FIFTEEN_SECONDS,
-    }
-  );
+  } = useSWR<Show>(showId || showId === 0 ? `/api/show/${showId}` : null, () => getShowsViaAPI(showId), {
+    revalidateOnMount: true,
+    revalidateOnReconnect: true,
+    revalidateOnFocus: true,
+    refreshInterval: FIFTEEN_SECONDS,
+  });
 
   if (error) return <QueryError message="Could not retrieve show info" />;
 
@@ -80,10 +69,7 @@ export const Reservation = ({ showId, submitPurchase }: ReservationProps) => {
             <Heading color="red.500">Show is sold out!</Heading>
           ) : (
             <>
-              <Heading
-                size="md"
-                color={show.availableSeatCount < 10 ? "red.500" : "inherit"}
-              >
+              <Heading size="md" color={show.availableSeatCount < 10 ? "red.500" : "inherit"}>
                 {show.availableSeatCount} seats left
               </Heading>
               <HStack pt={10} pb={3}>

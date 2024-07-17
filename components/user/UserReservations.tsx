@@ -10,14 +10,11 @@ import type { ReservationWithShow } from "@/lib/features/reservations/types";
 
 import { LoadingSpinner } from "../_common/LoadingSpinner";
 
-const getUserReservations = async (
-  userId?: number
-): Promise<Array<ReservationWithShow> | null> => {
+const getUserReservations = async (userId?: number): Promise<Array<ReservationWithShow> | null> => {
   if (!userId && typeof userId !== "number") return Promise.resolve(null);
-  const data = await axiosInstance.get<
-    null,
-    { data: { userReservations: Array<ReservationWithShow> } }
-  >(`/api/${routes.users}/${userId}/reservations`);
+  const data = await axiosInstance.get<null, { data: { userReservations: Array<ReservationWithShow> } }>(
+    `/api/${routes.users}/${userId}/reservations`
+  );
 
   return data.data.userReservations;
 };
@@ -31,12 +28,7 @@ export const UserReservations = ({ userId }: { userId: number }) => {
     fallbackData: [],
   });
 
-  if (error)
-    return (
-      <QueryError
-        message={`could not retrieve reservations: ${error?.message}`}
-      />
-    );
+  if (error) return <QueryError message={`could not retrieve reservations: ${error?.message}`} />;
 
   if (isValidating) return <LoadingSpinner display />;
 
