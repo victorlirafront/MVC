@@ -1,3 +1,6 @@
+//file created manually
+//it solves cors issue
+
 const PROXY_CONFIG = [
   {
     context: ["/api"],

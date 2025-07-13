@@ -2,6 +2,7 @@
 package com.victor.model;
 
 // Importa as anotações da JPA para mapear a classe como entidade no banco de dados
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Course {
     @Id
     // Indica que o valor do ID será gerado automaticamente
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("_id") //transforma o id em _id no frontend
     private Long id;
 
     // Define a coluna 'name' com no máximo 200 caracteres e que não pode ser nula
